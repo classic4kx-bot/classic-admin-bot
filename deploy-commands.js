@@ -1,9 +1,12 @@
-require("dotenv").config();
+const {
+  SlashCommandBuilder,
+  EmbedBuilder,
+} = require("discord.js");
 
-const { REST, Routes, SlashCommandBuilder } = require("discord.js");
+const OWNER_ID = "1174777690872627271";
 
-const commands = [
-  new SlashCommandBuilder()
+module.exports = {
+  data: new SlashCommandBuilder()
     .setName("announce")
     .setDescription("Send an announcement")
     .addStringOption(option =>
@@ -17,26 +20,35 @@ const commands = [
         .setName("message")
         .setDescription("Announcement message")
         .setRequired(true)
-    )
-    .toJSON(),
-];
+    ),
 
-const rest = new REST({ version: "10" }).setToken(process.env.TOKEN);
+  async execute(interaction) {
 
-(async () => {
-  try {
-    console.log("Registering slash commands...");
+    // Only allow you to use the command
+    if (interaction.user.id !== OWNER_ID) {
+      return interaction.reply({
+        content: "❌ You don't have permission to use this command.",
+        ephemeral: true,
+      });
+    }
 
-    await rest.put(
-      Routes.applicationGuildCommands(
-        process.env.CLIENT_ID,
-        process.env.GUILD_ID
-      ),
-      { body: commands }
-    );
+    const title = interaction.options.getString("title");
+    const message = interaction.options.getString("message");
 
-    console.log("Slash commands registered!");
-  } catch (error) {
+    const embed = new EmbedBuilder()
+      .setColor(0x0099ff)
+      .setTitle(`📢 ${title}`)
+      .setDescription(message)
+      .setFooter({
+        text: "Classic Trades",
+      })
+      .setTimestamp();
+
+    await interaction.reply({
+      embeds: [embed],
+    });
+  },
+};
     console.error(error);
   }
 })();
