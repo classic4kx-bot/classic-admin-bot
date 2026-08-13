@@ -28,7 +28,7 @@ module.exports = {
     const message = interaction.options.getString("message");
 
     const embed = new EmbedBuilder()
-      .setColor(0x0099ff)
+      .setColor(0x111111)
       .setTitle(`📢 ${title}`)
       .setDescription(message)
       .setFooter({
