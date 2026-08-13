@@ -32,7 +32,7 @@ module.exports = {
       .setTitle(`📢 ${title}`)
       .setDescription(message)
       .setFooter({
-        text: "Classic Trades"
+        text: "TAKE PROFITS IN MOTION"
       })
       .setTimestamp();
 
