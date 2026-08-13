@@ -1,15 +1,14 @@
 require("dotenv").config();
 
-const { Client, GatewayIntentBits } = require("discord.js");
-const fs = require("fs");
-const path = require("path");
-
 const {
 Client,
 Collection,
 GatewayIntentBits,
 Events,
 } = require("discord.js");
+
+const fs = require("fs");
+const path = require("path");
 
 const client = new Client({
 intents: [
@@ -23,7 +22,7 @@ console.log(`${client.user.tag} is online!`);
 client.commands = new Collection();
 
 // Load all commands
-const commandsPath = path.join(\_\_dirname, "commands");
+const commandsPath = path.join(__dirname, "commands");
 const commandFiles = fs
 .readdirSync(commandsPath)
 .filter(file => file.endsWith(".js"));
@@ -81,15 +80,15 @@ await command.execute(interaction);
 console.error(error);
 
 if (interaction.replied || interaction.deferred) {
-  await interaction.followUp({
-    content: "Something went wrong.",
-    ephemeral: true,
-  });
+await interaction.followUp({
+content: "Something went wrong.",
+ephemeral: true,
+});
 } else {
-  await interaction.reply({
-    content: "Something went wrong.",
-    ephemeral: true,
-  });
+await interaction.reply({
+content: "Something went wrong.",
+ephemeral: true,
+});
 }
 
 }
